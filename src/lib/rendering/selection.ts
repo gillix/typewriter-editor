@@ -9,7 +9,11 @@ export function getSelection(editor: Editor): EditorRange | null {
   const { root } = editor;
   const current = editor.doc.selection;
   if (!root.ownerDocument) return null;
-  const selection = root.ownerDocument.getSelection();
+  const rootNode = root.getRootNode();
+  if (rootNode instanceof ShadowRoot) {
+
+  }
+  const selection = rootNode instanceof ShadowRoot && rootNode.getSelection ? rootNode.getSelection() : root.ownerDocument.getSelection();
   const { lines } = editor.typeset;
 
   if (
